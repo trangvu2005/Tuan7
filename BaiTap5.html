@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bài tập 5</title>
+  <style>
+    *{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body{
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg,#dedfe4,#d136a0);
+    }
+
+    .card{
+      background: #f1afea;
+      padding: 32px 40px;
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.15);
+      text-align: center;
+      min-width: 360px;
+      max-width: 450px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      width:160px;
+      height:160px;
+      border-radius:50%;
+      background:rgba(204, 167, 188, 0.35);
+      top:-60px;
+      right:-60px;
+      z-index:-1;
+    }
+
+    .title{
+      font-size: 22px;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+
+
+    .buttons{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 10px;
+    }
+
+    .divider{
+      color:#ccc;
+      font-size: 18px;
+      user-select: none;
+    }
+
+    button{
+      border: none;
+      padding: 10px 26px;
+      border-radius: 999px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s, background .15s, color .15s;
+    }
+
+    #yesBtn{
+      background:#ff4b6e;
+      color:#fff;
+      box-shadow:0 8px 18px rgba(255,75,110,.4);
+    }
+    #yesBtn:hover{
+      transform: translateY(-2px) scale(1.03);
+      box-shadow:0 10px 22px rgba(255,75,110,.55);
+    }
+
+    #noBtn{
+      background:#38afb8;
+      color:#333;
+    }
+    #noBtn:hover{
+      background:#ececec;
+      transform: translateY(-2px);
+      box-shadow:0 8px 18px rgba(0,0,0,.08);
+    }
+
+    .hint{
+      margin-top:16px;
+      font-size:12px;
+      color:#999;
+    }
+  </style>
+</head>
+<body>
+<script>
+  // đếm số lần bấm KHÔNG
+  let wrongCount = 0;
+  // trạng thái đã đổi chỗ nút 
+  let isSwapped  = false;
+
+  function render() {
+    // dùng document.body.innerHTML 
+    document.body.innerHTML = `
+      <div class="card">
+        <div class="title">BẠN CÓ THÍCH MÌNH KHÔNG?</div>
+        <div class="buttons">
+          ${!isSwapped
+            ? `
+              <button id="yesBtn">CÓ</button>
+              <span class="divider">|</span>
+              <button id="noBtn">KHÔNG</button>
+            `
+            : `
+              <button id="noBtn">KHÔNG</button>
+              <span class="divider">|</span>
+              <button id="yesBtn">CÓ</button>
+            `
+          }
+        </div>
+      </div>
+    `;
+
+    // gán lại sự kiện cho các nút sau mỗi lần render
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn  = document.getElementById("noBtn");
+
+    yesBtn.addEventListener("click", onYesClick);
+    noBtn .addEventListener("click", onNoClick);
+  }
+
+  function onNoClick() {
+    wrongCount++;
+    if (wrongCount < 3) {
+      alert("Có thể bạn nên chọn lại !!");
+    } else {
+      isSwapped = !isSwapped;
+      wrongCount = 0; // reset đếm
+      render();       // vẽ lại giao diện với nút đổi chỗ
+    }
+  }
+
+  function onYesClick() {
+    alert("Xin lỗi, bạn không phải là đối tượng của mình 😅");
+  }
+
+  render();
+</script>
+</body>
+</html> 
